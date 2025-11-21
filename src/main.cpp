@@ -85,6 +85,10 @@ int main() {
 
     // Render to PPM file
     std::ofstream outFile("output.ppm");
+    if (!outFile.is_open()) {
+        std::cerr << "Error: Cannot create output.ppm file!" << std::endl;
+        return 1;
+    }
     outFile << "P3\n" << imageWidth << " " << imageHeight << "\n255\n";
 
     std::cout << "Rendering..." << std::endl;

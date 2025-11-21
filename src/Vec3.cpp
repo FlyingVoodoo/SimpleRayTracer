@@ -17,6 +17,9 @@ Vec3 Vec3::operator*(double scalar) const {
 }
 
 Vec3 Vec3::operator/(double scalar) const {
+    if (std::abs(scalar) < 1e-8) {
+        return Vec3(0, 0, 0);
+    }
     return Vec3(x / scalar, y / scalar, z / scalar);
 }
 
@@ -46,7 +49,7 @@ double Vec3::lengthSquared() const {
 
 Vec3 Vec3::normalized() const {
     double len = length();
-    if (len > 0) {
+    if (len > 1e-8) {
         return *this / len;
     }
     return Vec3(0, 0, 0);
