@@ -1,6 +1,10 @@
 #include "Camera.h"
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 Camera::Camera() {
     double aspectRatio = 16.0 / 9.0;
     double viewportHeight = 2.0;
