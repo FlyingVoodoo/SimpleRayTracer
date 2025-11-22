@@ -16,7 +16,6 @@ out/
 
 # Output images
 *.ppm
-*.png
 *.jpg
 *.bmp
 
