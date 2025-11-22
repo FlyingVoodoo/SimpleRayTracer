@@ -16,12 +16,19 @@ public:
     Vec3<T> operator*(T scalar) const;
     Vec3<T> operator/(T scalar) const;
     Vec3<T> operator-() const;
+    Vec3<T> operator*(const Vec3<T>& other) const;
+    Vec3<T> operator/(const Vec3<T>& other) const;
 
     T dot(const Vec3<T>& other) const;
     Vec3<T> cross(const Vec3<T>& other) const;
     T lengthSquared() const;
     T length() const;
     Vec3<T> normalized() const;
+
+    bool nearZero() const {
+        const T s = 1e-8;
+        return (std::fabs(x) < s) && (std::fabs(y) < s) && (std::fabs(z) < s);
+    }
 };
 
 template<typename T>

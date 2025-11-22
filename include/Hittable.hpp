@@ -5,12 +5,17 @@
 
 #include <memory>
 
+class Material;
+
+using MaterialPtr = std::shared_ptr<Material>;
+
 struct hit_record {
     Vec3d point;
     Vec3d normal;
     double t;
     bool front_face;
-
+    MaterialPtr material;
+    
     void setFaceNormal(const Rayd& r, const Vec3d& outward_normal) {
         front_face = r.direction.dot(outward_normal) < 0;
         normal = front_face ? outward_normal : -outward_normal;

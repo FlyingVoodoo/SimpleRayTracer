@@ -1,11 +1,21 @@
 #include "Render.hpp"
+#include "Ray.hpp"
+#include "utils.hpp"
+#include "Material.hpp"
 
-Vec3d RayColor(const Rayd& r, const World& world) {
+Color RayColor(const Rayd& r, const World& world, int depth) {
     hit_record rec;
+    if (depth <= 0) {
+        return Color(0.0, 0.0, 0.0);
+    }
     if (world.hit(r, 0.001, std::numeric_limits<double>::infinity(), rec)) {
-        Vec3d ambient = Vec3d(0.3, 0.3, 0.3);
-        Vec3d diffuse = 0.7 * (rec.normal + Vec3d(1.0, 1.0, 1.0)) * 0.5;
-        return ambient + diffuse;
+        Rayd scattered;
+        Color attenuation;
+        if (rec.material->scatter(r, rec, attenuation, scattered)) {
+            return attenuation * RayColor(scattered, world, depth - 1);
+        }
+
+        return Color(0.0, 0.0, 0.0);
     }
 
     Vec3d unit_direction = r.direction.normalized();

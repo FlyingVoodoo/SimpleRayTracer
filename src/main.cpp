@@ -3,6 +3,7 @@
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "utils.hpp"
+#include "Lambertian.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -26,7 +27,7 @@ void render_region(int start_y, int end_y, int image_width, int image_height, in
                 double v = (j + random_v_offset) / (image_height - 1);
 
                 Rayd r = camera.get_ray(u, v);
-                pixel_color = pixel_color + RayColor(r, world);
+                pixel_color = pixel_color + RayColor(r, world, 50);
             }
             framebuffer[j * image_width + i] = pixel_color / static_cast<double>(samples_per_pixel);
         }
@@ -36,12 +37,14 @@ void render_region(int start_y, int end_y, int image_width, int image_height, in
 int main() {
     const int image_width = 800;
     const int image_height = 450;
-    const int samples_per_pixel = 100;
+    const int samples_per_pixel = 1000;
     const int num_threads = std::thread::hardware_concurrency();
 
     World world;
-    world.add(std::make_shared<Sphere>(Vec3d(0.0, 0.0, -1.0), 0.5));
-    world.add(std::make_shared<Sphere>(Vec3d(0.0, -100.5, -1.0), 100.0));
+    auto material_center = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    world.add(std::make_shared<Sphere>(Vec3d(0.0, 0.0, -1.0), 0.5, material_center));
+    auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
+    world.add(std::make_shared<Sphere>(Vec3d(0.0, -100.5, -1.0), 100.0, material_ground));
 
     Camera camera;
     std::vector<Vec3d> framebuffer(image_width * image_height);

@@ -30,6 +30,16 @@ Vec3<T> Vec3<T>::operator-() const {
 }
 
 template<typename T>
+Vec3<T> Vec3<T>::operator*(const Vec3<T>& other) const {
+    return Vec3<T>(x * other.x, y * other.y, z * other.z);
+}
+
+template<typename T>
+Vec3<T> Vec3<T>::operator/(const Vec3<T>& other) const {
+    return Vec3<T>(x / other.x, y / other.y, z / other.z);
+}
+
+template<typename T>
 T Vec3<T>::dot(const Vec3<T>& other) const {
     return x * other.x + y * other.y + z * other.z;
 }

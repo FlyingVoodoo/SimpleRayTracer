@@ -2,8 +2,11 @@
 
 #include <iostream>
 #include "Vec3.hpp"
+#include <random>
 
-inline void writeColor(std::ostream& out, const Vec3d color, int samples_per_pixel) {
+using Color = Vec3d;
+
+inline void writeColor(std::ostream& out, const Color color, int samples_per_pixel) {
     double scale = 1.0 / samples_per_pixel;
     double r = std::sqrt(color.x * scale);
     double g = std::sqrt(color.y * scale);
@@ -18,3 +21,27 @@ inline void writeColor(std::ostream& out, const Vec3d color, int samples_per_pix
 
     out << to_byte(r) << ' ' << to_byte(g) << ' ' << to_byte(b) << '\n';
 }
+
+inline double randomDouble() {
+    static std::uniform_real_distribution<double> distribution(0.0, 1.0);
+    static std::mt19937 generator;
+    return distribution(generator);
+}
+
+inline double randomDouble(double min, double max) {
+    return min + (max - min) * randomDouble();
+}
+
+inline Vec3d randomInUnitSphere() {
+    while (true) {
+        auto p = Vec3d(
+            randomDouble(-1.0, 1.0),
+            randomDouble(-1.0, 1.0),
+            randomDouble(-1.0, 1.0)
+        );
+        if (p.lengthSquared() >= 1.0) continue;
+        return p;
+    }
+}
+
+const int MAX_DEPTH = 50;

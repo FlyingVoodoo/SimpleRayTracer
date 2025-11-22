@@ -15,6 +15,7 @@ set(SOURCES
     src/Sphere.cpp
     src/World.cpp
     src/Render.cpp
+    src/Lambertian.cpp
 )
 
 # Executable

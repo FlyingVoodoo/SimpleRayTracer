@@ -4,4 +4,4 @@
 #include "Ray.hpp"
 #include "World.hpp"
 
-Vec3d RayColor(const Rayd& r, const World& world);
+Vec3d RayColor(const Rayd& r, const World& world, int depth);

@@ -30,5 +30,6 @@ bool Sphere::hit(const Rayd& r, double t_min, double t_max, hit_record& rec) con
     rec.point = r.pointAtParameter(rec.t);
     Vec3d outward_normal = (rec.point - center) / radius;
     rec.setFaceNormal(r, outward_normal);
+    rec.material = material;
     return true;
 }
